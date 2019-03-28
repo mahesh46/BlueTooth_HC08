@@ -1,0 +1,30 @@
+//bluetooth example
+// SH-HC-08 bluetooth model, characteristic : FFE1, ios apps dsd tech,bluetoothLE, LightBlue LE
+// Send H (in hex 48) to turn light on, any other to turn off
+int ledpin = 13;   //led in pin 13,and gnd
+
+char val; // variable to receive data from the serial port
+ 
+void setup() {
+ pinMode(ledpin, OUTPUT);
+ digitalWrite(ledpin, LOW);
+ 
+ Serial.begin(9600); // Default connection rate for my BT module
+}
+ 
+
+void loop() {
+  if( Serial.available() )       // if data is available to read
+  {
+    val = Serial.read();         // read it and store it in 'val'
+  }
+  if( val == 'H' )               // if 'H' was received
+  {
+    digitalWrite(ledpin, HIGH);  // turn ON the LED
+    Serial.write("on");
+  } else { 
+    digitalWrite(ledpin, LOW);   // otherwise turn it OFF
+    Serial.write("off");
+  }
+  delay(100);                    // wait 100ms for next reading
+}
